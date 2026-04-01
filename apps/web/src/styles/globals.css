@@ -1,1 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 @import "tailwindcss";
+
+@theme {
+  /* ─── Typography ─────────────────────────────────── */
+  --font-sans: 'Lato', ui-sans-serif, system-ui, sans-serif;
+
+  /* ─── Brand (blue scale) ─────────────────────────── */
+  --color-brand-900: #2E3DA3;
+  --color-brand-600: #5165E1;
+  --color-brand-400: #8996EB;
+
+  /* ─── Neutral (dark → light) ─────────────────────── */
+  --color-neutral-950: #09090A;
+  --color-neutral-900: #121214;
+  --color-neutral-800: #151619;
+  --color-neutral-700: #1E2024;
+  --color-neutral-500: #535964;
+  --color-neutral-400: #858B99;
+  --color-neutral-200: #E1E1E6;
+  --color-neutral-100: #E3E5E8;
+  --color-neutral-50:  #F9FAFA;
+
+  /* ─── Status ─────────────────────────────────────── */
+  --color-status-open:     #CC3D6A;
+  --color-status-progress: #355EC5;
+  --color-status-closed:   #508B26;
+  --color-danger:          #D03E3E;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-900);
+  }
+}
