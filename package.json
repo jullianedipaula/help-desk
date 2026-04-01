@@ -1,6 +1,9 @@
 {
   "name": "help-desk",
   "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": ["bcrypt", "esbuild", "sharp"]
+  },
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",

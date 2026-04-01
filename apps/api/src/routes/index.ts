@@ -1,7 +1,8 @@
 import { type IRouter, Router } from 'express'
+import authRouter from './auth'
 
 const router: IRouter = Router()
 
-// Add routes here
+router.use('/auth', authRouter)
 
 export default router
