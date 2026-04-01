@@ -1,0 +1,15 @@
+{
+  "name": "help-desk",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "biome check .",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.6",
+    "turbo": "^2.5.4"
+  },
+  "packageManager": "pnpm@10.33.0"
+}
