@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt'
 import { eq } from 'drizzle-orm'
-import { Router } from 'express'
+import { type IRouter, Router } from 'express'
 import jwt from 'jsonwebtoken'
 import { db } from '../db'
-import { users } from '../db/schema'
+import { clients, users } from '../db/schema'
 import { requireAuth } from '../middlewares/auth'
 
-const router = Router()
+const router: IRouter = Router()
 
 const BCRYPT_ROUNDS = 12
 
@@ -44,14 +44,17 @@ router.post('/register', async (req, res) => {
   const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS)
   const [user] = await db
     .insert(users)
-    .values({ name, email, passwordHash })
+    .values({ name, email, passwordHash, role: 'client' })
     .returning()
+
+  await db.insert(clients).values({ userId: user.id })
 
   res.status(201).json({
     id: user.id,
     name: user.name,
     email: user.email,
     role: user.role,
+    mustChangePassword: user.mustChangePassword,
   })
 })
 
@@ -93,7 +96,7 @@ router.post('/login', async (req, res) => {
   res
     .cookie('access_token', accessToken, cookieOptions(15 * 60 * 1000))
     .cookie('refresh_token', refreshToken, cookieOptions(7 * 24 * 60 * 60 * 1000))
-    .json({ id: user.id, name: user.name, email: user.email, role: user.role })
+    .json({ id: user.id, name: user.name, email: user.email, role: user.role, mustChangePassword: user.mustChangePassword })
 })
 
 router.post('/refresh', (req, res) => {
