@@ -158,7 +158,7 @@ describe('POST /auth/login', () => {
       email: 'alice@test.com',
       role: 'user',
     })
-    const cookies = res.headers['set-cookie'] as string[]
+    const cookies = res.headers['set-cookie'] as unknown as string[]
     expect(cookies.some((c: string) => c.startsWith('access_token='))).toBe(true)
     expect(cookies.some((c: string) => c.startsWith('refresh_token='))).toBe(true)
   })
@@ -191,7 +191,7 @@ describe('POST /auth/refresh', () => {
       .set('Cookie', `refresh_token=${refreshToken}`)
     expect(res.status).toBe(200)
     expect(res.body).toEqual({ ok: true })
-    const cookies = res.headers['set-cookie'] as string[]
+    const cookies = res.headers['set-cookie'] as unknown as string[]
     expect(cookies.some((c: string) => c.startsWith('access_token='))).toBe(true)
   })
 })
@@ -201,7 +201,7 @@ describe('POST /auth/logout', () => {
     const res = await supertest(buildApp()).post('/auth/logout')
     expect(res.status).toBe(200)
     expect(res.body).toEqual({ ok: true })
-    const cookies = res.headers['set-cookie'] as string[]
+    const cookies = res.headers['set-cookie'] as unknown as string[]
     expect(cookies.some((c: string) => c.includes('access_token=;'))).toBe(true)
     expect(cookies.some((c: string) => c.includes('refresh_token=;'))).toBe(true)
   })
