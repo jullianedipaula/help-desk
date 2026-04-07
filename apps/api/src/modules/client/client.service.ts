@@ -49,7 +49,7 @@ export async function getClient(id: string) {
           description: true,
           status: true,
           createdAt: true,
-          service: { select: { id: true, name: true } },
+          services: { select: { service: { select: { id: true, name: true } } } },
         },
         orderBy: { createdAt: 'desc' },
       },

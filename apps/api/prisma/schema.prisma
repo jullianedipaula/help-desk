@@ -44,6 +44,7 @@ model Technician {
   availableFrom      Int      @default(8)
   availableTo        Int      @default(17)
   mustChangePassword Boolean  @default(true)
+  avatarUrl          String?
   calls              Call[]
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
@@ -57,26 +58,34 @@ model Client {
 }
 
 model Service {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   name        String
   description String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  calls       Call[]
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  calls       CallService[]
 }
 
 model Call {
-  id           String      @id @default(cuid())
+  id           String        @id @default(cuid())
   description  String
-  status       CallStatus  @default(OPEN)
+  status       CallStatus    @default(OPEN)
   clientId     String
-  client       Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  client       Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   technicianId String?
-  technician   Technician? @relation(fields: [technicianId], references: [id], onDelete: SetNull)
-  serviceId    String
-  service      Service     @relation(fields: [serviceId], references: [id])
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  technician   Technician?   @relation(fields: [technicianId], references: [id], onDelete: SetNull)
+  services     CallService[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   closedAt     DateTime?
+}
+
+model CallService {
+  callId    String
+  serviceId String
+  call      Call    @relation(fields: [callId], references: [id], onDelete: Cascade)
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+
+  @@id([callId, serviceId])
 }
