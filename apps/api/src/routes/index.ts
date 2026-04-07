@@ -6,6 +6,7 @@ import technicianMeRouter from '../modules/technician/technician-me.router'
 import serviceRouter from '../modules/service/service.router'
 import clientRouter from '../modules/client/client.router'
 import callRouter from '../modules/call/call.router'
+import clientMeRouter from '../modules/client/client-me.router'
 
 const router: ExpressRouter = Router()
 
@@ -20,5 +21,6 @@ router.use('/admin/services', serviceRouter)
 router.use('/admin/clients', clientRouter)
 router.use('/admin/calls', callRouter)
 router.use('/technician', technicianMeRouter)
+router.use('/client', clientMeRouter)
 
 export default router
