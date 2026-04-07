@@ -51,10 +51,11 @@ model Technician {
 }
 
 model Client {
-  id     String @id @default(cuid())
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  calls  Call[]
+  id        String  @id @default(cuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  avatarUrl String?
+  calls     Call[]
 }
 
 model Service {
