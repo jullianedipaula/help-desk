@@ -1,0 +1,10 @@
+{
+  "name": "@help-desk/tsconfig",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./base": "./base.json",
+    "./node": "./node.json",
+    "./nextjs": "./nextjs.json"
+  }
+}
