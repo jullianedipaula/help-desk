@@ -32,6 +32,7 @@ export const changeMyClientPasswordSchema = z.object({
 export const createMyCallSchema = z.object({
   description: z.string().min(10),
   technicianId: z.string().cuid().optional(),
+  serviceIds: z.array(z.string().cuid()).min(1).optional(),
 })
 
 export type CreateClientInput = z.infer<typeof createClientSchema>
