@@ -175,15 +175,34 @@ export async function listMyClientCalls(userId: string) {
 
 export async function createMyCall(userId: string, input: CreateMyCallInput) {
   const client = await getClientByUserId(userId)
+
   if (input.technicianId) {
     const tech = await prisma.technician.findUnique({ where: { id: input.technicianId } })
     if (!tech) throw new NotFoundError('Technician not found')
   }
+
+  if (input.serviceIds?.length) {
+    const found = await prisma.service.findMany({
+      where: { id: { in: input.serviceIds }, isActive: true },
+      select: { id: true },
+    })
+    if (found.length !== input.serviceIds.length) {
+      throw new NotFoundError('One or more services not found or inactive')
+    }
+  }
+
   return prisma.call.create({
     data: {
       description: input.description,
       clientId: client.id,
       technicianId: input.technicianId ?? null,
+      ...(input.serviceIds?.length && {
+        services: {
+          createMany: {
+            data: input.serviceIds.map((serviceId) => ({ serviceId })),
+          },
+        },
+      }),
     },
     select: MY_CALL_SELECT,
   })
